@@ -25,12 +25,10 @@ def register(user: UserCreate):
     # Check if user exists
     if users_collection.find_one({"email": user.email}):
         raise HTTPException(status_code=400, detail="Email already registered")
-    if users_collection.find_one({"username": user.username}):
-        raise HTTPException(status_code=400, detail="Username already taken")
 
     # Create user
     new_user = {
-        "username": user.username,
+        "fullname": user.fullname,
         "email": user.email,
         "password_hash": hash_password(user.password),
         "created_at": datetime.now(timezone.utc)
